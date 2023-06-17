@@ -108,7 +108,7 @@
     		for (var i = 0; i < grades.length; i++) {
         		div.innerHTML +=
            		 '<i style="background:' + getcor10k(grades[i] + 1) + '"></i> ' +
-           		 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+           		 (grades[i] === 0 ? grades[i] : (grades[i] + 1) + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'))
     		}
 
     	return div;
