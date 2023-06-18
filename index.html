@@ -51,10 +51,10 @@
 
   	
   	function getcor10k (d) {
-  		return d > 30 ? '#BD0026' :
-  			d > 10 ? '#FFAC1C' :
-  			d > 1 ? '#FFBF00' :
-  			d >= 0 ? '#228B22' :
+  		return d > 30 ? '#FF0000' :
+  			d > 10 ? '#FFA500' :
+  			d > 1 ? '#FFD700' :
+  			d >= 0 ? '#00B300' :
   				 '#FFFFFF';
   				 
   	}
@@ -108,7 +108,7 @@
     		for (var i = 0; i < grades.length; i++) {
         		div.innerHTML +=
            		 '<i style="background:' + getcor10k(grades[i] + 1) + '"></i> ' +
-           		 (grades[i] === 0 ? grades[i] : (grades[i] + 1) + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'))
+           		 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
     		}
 
     	return div;
