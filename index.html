@@ -1,0 +1,141 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Primeiro exercicio Leaflet</title>
+  <link rel="stylesheet" href="js/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="dist/MarkerCluster.css" crossorigin=""> 
+  <link rel="stylesheet" href="dist/MarkerCluster.Default.css" crossorigin="">
+  
+  <script src="js/leaflet.js"></script>
+  <script src="dist/leaflet.markercluster-src.js"crossorigin=""></script>
+  <style>
+    #map{ height: 100% }
+    .legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+.info.legend {
+        background-color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+  <script src ="data/estadios.geojson"></script>
+  <script src ="data/casospor10khab.geojson"></script>
+  <script src ="data/casos.geojson"></script>
+
+  <script>
+
+  // initialize the map  -> é aqui que começamos a inicializar o mapa
+  var map = L.map('map').setView([38.749, -9.155], 13);
+  // vais desenhar o "map" naquela view naquelas coordenadas, o separador algoritmo é o ponto, e são separadas pela virgula
+  // load a tile layer - > A função L é especifica do leaflet, o atribuition é o titulo
+	var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+	// L.tileLayer.wms('http://localhost:8080/geoserver/websig/wms?', {
+    	//	layers: 'websig%3ACONCELHOS'
+	//}).addTo(map);
+  // o map é a variavel do var map
+  
+
+  	
+  	function getcor10k (d) {
+  		return d > 30 ? '#FF0000' :
+  			d > 10 ? '#FFA500' :
+  			d > 1 ? '#FFD700' :
+  			d >= 0 ? '#00B300' :
+  				 '#FFFFFF';
+  				 
+  	}
+  	
+  	function estilo10k(feature) {
+  		return {
+  			weight: 1,
+  			opacity: 1,
+  			color: 'white',
+  			dashArray:'3',
+  			fillOpacity: 1.0 ,
+  			fillColor: getcor10k(feature.properties.Casos_23_1)
+  		
+  		};
+  
+  	}	
+  	function zoomToFeature(e) {
+  		map.fitBounds(e.target.getBounds());
+  	}
+  	
+  	function emcadaConcelho(feature,layer) {
+  		layer.on({
+  			click: zoomToFeature
+  		});
+  	
+  	}
+  	
+  	function onEachFeature(feature, layer) {
+   
+        	layer.bindPopup('Concelho:' + feature.properties.Concelho + '<br>' +'População:' + feature.properties.POP_2018);
+    	
+    	}
+  	
+  	var casos10kLayer = L.geoJSON(casos10kData,{
+  		style: estilo10k,
+  		onEachFeature: onEachFeature
+  		}).addTo(map);
+  		
+  	L.control.scale({imperial:false}).addTo(map);
+  	
+  	
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+    		var div = L.DomUtil.create('div', 'info legend'),
+        		grades = [0, 1, 10, 30],
+        		labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    		for (var i = 0; i < grades.length; i++) {
+        		div.innerHTML +=
+           		 '<i style="background:' + getcor10k(grades[i] + 1) + '"></i> ' +
+           		 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    		}
+
+    	return div;
+	};
+
+	legend.addTo(map);
+	
+var baseMaps = {
+    "OpenStreetMap": osm  // aqui é os basemaps
+
+};
+
+var overlayMaps = {  // aqui é os overlays
+    "Casos de COVID po 10 mil hab": casos10kLayer
+};	
+
+var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);	
+  	
+
+var marcadores = L.markerClusterGroup();
+var casospontoLayer = L.geoJSON(casosponto,{
+  		// onEachFeature: function (feature, layer) {layer.bindPopup (feature.properties.1);}
+  	});
+  	marcadores.addLayer(casospontoLayer);
+  	map.addLayer(marcadores);
+  	
+  	
+  </script>
+
+</body></html>
