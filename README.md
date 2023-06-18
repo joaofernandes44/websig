@@ -6,7 +6,9 @@ Para este projecto foi utilizada a libraria Leaflet. O leaflet é uma libraria o
 
 O setup:
 1- Criar uma pasta do projecto
+
 2- Criar pastas dentro do projecto chamadas "data" (onde se coloca os json), "dist" (ficheiros js), "img" (dados em forma de imagens) e por fim "js" onde se mete os ficheiros do leaflet.
+
 3- Criar um ficheiro index.html - Este ficheiro irá ser a nossa base, onde irá ser criado o código responsável pelos mapas.
 
 
@@ -88,7 +90,7 @@ Para se meter a legenda é o seguinte:
            		 '<i style="background:' + getcor10k(grades[i] + 1) + '"></i> ' +
            		 (grades[i] === 0 ? grades[i] : (grades[i] + 1) + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'))
     		}
-return div;
+	return div;
 	};
 
 	legend.addTo(map);
