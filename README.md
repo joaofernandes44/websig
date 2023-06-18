@@ -1,4 +1,4 @@
-![imagem](https://github.com/joaofernandes44/websig/assets/134423694/80ba1f5f-b602-4559-85b8-b951d71deeec)Trabalho Prático de Websig
+Trabalho Prático de Websig
 
 Utilização do Leaflet/Marker Clusters para demonstrar os casos de covid na região do continente por 10 mil habitantes : resultado final
 
@@ -12,10 +12,10 @@ O setup:
 
 Código:
 
-  <div id="map"></div>
-  <script src ="data/estadios.geojson"></script>
-  <script src ="data/casospor10khab.geojson"></script>
-  <script src ="data/casos.geojson"></script>
+  	<div id="map"></div>
+  	<script src ="data/estadios.geojson"></script>
+  	<script src ="data/casospor10khab.geojson"></script>
+  	<script src ="data/casos.geojson"></script>
 
   Para importar os dados é necessário dar a source ao script, como anteriormente referido, para a pasta "data". Nestes casos é necessário entrar dentro dos geojsons para dar o nome à variável da seguinte forma:
   ![imagem](https://github.com/joaofernandes44/websig/assets/134423694/9e9223bd-c5be-40fb-b86a-d9bb1b046dbe)
@@ -28,7 +28,7 @@ Código:
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-    Neste caso mete-se o openstreetmaps.
+Neste caso mete-se o openstreetmaps.
 
 Escala da legenda:
   function getcor10k (d) {
@@ -72,10 +72,10 @@ Neste caso está em métrica, mas para se meter imperial bastava meter true.
 
 Para se meter a legenda é o seguinte:
 
-var legend = L.control({position: 'bottomright'});
-legend.onAdd = function (map) {
+	var legend = L.control({position: 'bottomright'});
+	legend.onAdd = function (map) {
 
-legend.onAdd = function (map) {
+	legend.onAdd = function (map) {
 
     		var div = L.DomUtil.create('div', 'info legend'),
         		grades = [0, 1, 10, 30],
@@ -91,7 +91,31 @@ return div;
 
 	legend.addTo(map);
  
-  Aqui cria-se o numero de quantidade de intervalos para se poder criar, este é associado à legenda que mais acima foi associada às cores
+  Aqui cria-se o numero de quantidade de intervalos para se poder criar, este é associado à legenda que mais acima foi associada às cores.
+
+  Para se poder criar overlays é o seguinte código:
+
+  var baseMaps = {
+    "OpenStreetMap": osm  
+	};
+
+	var overlayMaps = {  
+    "Casos de COVID po 10 mil hab": casos10kLayer
+	};	
+
+	var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);	
+
+No basemaps mete-se os mapas de base, neste caso o openstreetaos, enquanto que nos overlaymaps é as layers que ficam por de cima.
+
+O resultado final é o seguinte:
+
+
+
+
+Neste readme não se encontra tudo explicito, apenas o especifico deste projecto.
+Para mais informações:
+https://leafletjs.com/examples.html
+
 
 
   
